@@ -38,14 +38,28 @@ class HashTable:
         index = self.__get_hash(key)
         return self.arr[index]
 
+    def putSelfHash(self, data):
+        primary_index = hash(data) % self.size
+        self.arr[primary_index].prepend(data)
+
+    def removeSelfHash(self, data):
+        primary_index = hash(data) % self.size
+        self.arr[primary_index].delete(data)
+
+    def getSelfHash(self,data):
+        primary_index = hash(data) % self.size
+        found = self.arr[primary_index].get(data)
+        return found
 
 
     def __str__(self):
         result = ""
-        for data in self.arr:
-            if data is not None:
-                result += f"{str(data)}\n"
-            return result
+        for sll in self.arr:
+            if sll is not None:
+                result += str(sll) + "\n"
+        return result
+
+
 
     # def __get_second_hash(self, key):
     #     index = 0

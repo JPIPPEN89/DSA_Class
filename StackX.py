@@ -39,7 +39,7 @@ class StackX :
         print(self.stack)
 
     def __str__(self):
-        if self.empty() :
+        if self.is_empty() :
             return ""
         else:
             txt = ""
