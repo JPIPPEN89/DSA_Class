@@ -1,39 +1,103 @@
-from StackX import StackX
-from QueueX import QueueX
-from LinkList import Node, SLL
-from Book import Book
+import random
+import string
+import sys
+import time
+
 from HashTable import HashTable
-from BST import BST, Node
-
-
-
-
+from BST import BST
+from Book import Book
+from datetime import datetime
+sys.setrecursionlimit(2000)  # Increase the recursion limit to 2000
 bst = BST()
+isbn_set = set()
+known_isbn = 0
+books = [];
 
-# book1 = Book(1111, "Book1")
-# book2 = Book(2387, "Book2")
-# book3 = Book(3423, "Book3")
-# book4 = Book(4443, "Book4")
-# book5 = Book(5555, "Book5")
+def generate_random_isbn():
+    """ Generates a random 13-digit ISBN """
+    return ''.join(random.choices(string.digits, k=13))
 
-bst.insert(10)
-bst.insert(12)
-bst.insert(8)
-bst.insert(6)
-bst.insert(9)
+def generate_random_title():
+    """ Generates a random book title """
+    words = ["Python", "Data", "Algorithms", "Structures", "AI", "Deep Learning", "Code", "Design", "Patterns"]
+    return " ".join(random.choices(words, k=random.randint(2, 5)))
 
-bst.inorder_traversal()
+# ****************************************************************
+# Array Testing
+# ****************************************************************
+
+startInsert_timeAR = time.time()
+
+for i in range(1, 1000):
+    isbn = generate_random_isbn()
+    title = generate_random_title()
+    book = Book(isbn, title)
+    books.append(book)
+    if i == 999:
+        known_isbn = isbn
+
+endInsert_timeAR = time.time()
+print ("Array Insert Time: " + f"{endInsert_timeAR - startInsert_timeAR:.9f}")
+
+searchARBook = Book(known_isbn, "TTTTT")
+
+startSearch_timeAR = time.time()
+
+for book in books:
+    if (book == searchARBook):
+        print (book)
+        break
+
+endSearch_timeAR = time.time()
+print ("Array Search Time: " + f"{endSearch_timeAR - startSearch_timeAR:.9f}" + "\n\n")
+
+# ****************************************************************
+# BST Testing
+# ****************************************************************
+
+startInsert_timeBST = time.time()
+
+for i in range(1000000):
+    while True:
+        isbn = generate_random_isbn()
+        if isbn not in isbn_set:
+            isbn_set.add(isbn)
+            break
+
+    title = generate_random_title()
+    book = Book(isbn, title)
+
+    if i == 999999:
+        known_isbn = isbn
+
+    bst.insert(book)
+
+endInsert_timeBST = time.time()
+print ("BST Insert Time: " + f"{endInsert_timeBST - startInsert_timeBST:.9f}")
+
+searchBook = Book(known_isbn, "")
+
+# Search for the known ISBN and measure time
+startSearch_timeBST = time.time()
+found_book = bst.search(searchBook)
+endSearch_timeBST = time.time()
+print ("BST Search Time : " + f"{endSearch_timeBST - startSearch_timeBST:.9f}")
+
+print(found_book)
+
+# ****************************************************************
+# BST Testing (post Rebalance
+# ****************************************************************
+print ("Height of Tree(Original): " + str(bst.height(bst.root)))
+bst.rebalance()
+print ("Height of Tree(Rebalanced): " + str(bst.height(bst.root)))
+
+start_timeRB = time.time()
+found_book = bst.search(searchBook)
+end_timeRB = time.time()
+
+print ("Search Time after Rebalance : " + f"{end_timeRB - start_timeRB:.9f}")
 
 
 
 
-# ht.putSelfHash(book1)
-# ht.putSelfHash(book2)
-# ht.putSelfHash(book3)
-# ht.putSelfHash(book4)
-# ht.putSelfHash(book5)
-#
-# # targetBook = Book(54321, "")
-# # ht.removeSelfHash(targetBook)
-#
-# print(ht)
