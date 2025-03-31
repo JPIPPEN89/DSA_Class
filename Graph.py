@@ -23,6 +23,22 @@ class Graph:
         connections = self.node_list.get(target)
         return connections
 
+    def remove_edge(self, node1, node2):
+        if node1 in self.node_list and node2 in self.node_list:
+            if node2 in self.node_list[node1]:
+                self.node_list[node1].remove(node2)
+
+            if not self.directed and node1 in self.node_list[node2]:
+                self.node_list[node2].remove(node1)
+
+    def remove_node(self, node):
+        if node in self.node_list:
+            del self.node_list[node]
+
+        for neighbor in self.node_list.values():
+            if node in neighbor:
+                neighbor.remove(node)
+
 
     def visualize(self, filename="graph_output", arrow_style="none"):
         """Generates a Graphviz visualization of the graph with custom arrow styles."""
