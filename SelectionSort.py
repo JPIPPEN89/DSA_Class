@@ -1,12 +1,22 @@
-def selectonSort(list):
-    n = len(list)
+def selectionSort(lst):
+    n = len(lst)
+    pass_count = 0
+    swap_count = 0
+    comparison_count = 0
 
-    for i in range(n):
+    for i in range(n - 1):  # Only need to loop until n-1
         min_index = i
-        for j in range(i+1, n):
-            if list[j] < list[min_index]:
+        pass_count += 1
+        for j in range(i + 1, n):
+            comparison_count += 1  # Count each comparison
+            if lst[j] < lst[min_index]:
                 min_index = j
 
-        list[i],list[min_index] = list[min_index], list[i]
+        if min_index != i:  # Swap only when needed
+            lst[i], lst[min_index] = lst[min_index], lst[i]
+            swap_count += 1
 
-    return list
+    print("Passes:", pass_count)
+    print("Swaps:", swap_count)
+    print("Comparisons:", comparison_count)
+    return lst
